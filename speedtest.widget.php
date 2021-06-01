@@ -20,8 +20,12 @@
 
 require_once("guiconfig.inc");
 
+// Config panel documentation: https://docs.netgate.com/pfsense/en/latest/development/create-widgets.html#customizing-the-title-and-linking-to-page
+
 if ($_REQUEST['ajax']) { 
-    $results = shell_exec("speedtest --json");
+	// Full server list here: https://c.speedtest.net/speedtest-servers-static.php
+	// speedtest --server-id=3578
+    $results = shell_exec("speedtest --format=json");
     if(($results !== null) && (json_decode($results) !== null)) {
         $config['widgets']['speedtest_result'] = $results;
         write_config("Save speedtest results");
@@ -64,12 +68,11 @@ function update_result(results) {
     if(results != null) {
     	var date = new Date(results.timestamp);
     	$("#speedtest-ts").html(date);
-    	$("#speedtest-ping").html(results.ping.toFixed(2) + "<small> ms</small>");
-    	$("#speedtest-download").html((results.download / 1000000).toFixed(2) + "<small> Mbps</small>");
-    	$("#speedtest-upload").html((results.upload / 1000000).toFixed(2) + "<small> Mbps</small>");
-    	$("#speedtest-upload").html((results.upload / 1000000).toFixed(2) + "<small> Mbps</small>");
-    	$("#speedtest-isp").html(results.client.isp);
-    	$("#speedtest-host").html(results.server.name);
+    	$("#speedtest-ping").html(results.ping.latency.toFixed(2) + "<small> ms</small>");
+    	$("#speedtest-download").html((results.download.bandwidth / 100000).toFixed(2) + "<small> Mbps</small>");
+    	$("#speedtest-upload").html((results.upload.bandwidth / 100000).toFixed(2) + "<small> Mbps</small>");
+    	$("#speedtest-isp").html(results.isp);
+    	$("#speedtest-host").html(results.server.name + " (" + results.server.id + ")");
     } else {
     	$("#speedtest-ts").html("Speedtest failed");
     	$("#speedtest-ping").html("N/A");
