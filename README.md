@@ -1,6 +1,6 @@
 # Speedtest dashboard widget for pfSense
 
-![Widget sample](./Images/Widget.png)
+![Widget sample](./Images/WidgetAnimated.gif)
 
 ## Install
 
@@ -63,6 +63,7 @@ You need to manually and only once accept the license and GDPR terms before the 
 ```
 speedtest --accept-license --accept-gdpr
 ```
+
 ![Move file](Images/AcceptLicenseGdpr.png)
 
 ### Adding the Speedtest widget to your pfSense dashboard
